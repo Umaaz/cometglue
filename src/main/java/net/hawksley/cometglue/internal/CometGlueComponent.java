@@ -26,7 +26,7 @@ public class CometGlueComponent
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
     protected HttpService httpService;
 
-    @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
+    @Reference(cardinality = ReferenceCardinality.OPTIONAL_UNARY)
     protected LogService log;
 
     private BayeuxServerImpl bayeux;
@@ -39,7 +39,8 @@ public class CometGlueComponent
 
         putEnvironmentalOpts(opts);
 
-        log.log(LogService.LOG_DEBUG, "Bayeux options: " + opts);
+        if (log != null)
+            log.log(LogService.LOG_DEBUG, "Using Bayeux options: " + opts);
 
         // Register the cometd service with the OSGi web service.
         // In jetty.xml, the following conenctor must be used:
@@ -54,7 +55,8 @@ public class CometGlueComponent
         serviceReg = ctxt.getBundleContext().registerService(
                 BayeuxServer.class.getName(), bayeux, null);
 
-        log.log(LogService.LOG_DEBUG, "Active and session open.");
+        if (log != null)
+            log.log(LogService.LOG_DEBUG, "Component active.");
     }
 
     protected void deactivate(ComponentContext ctx) throws Exception
@@ -63,7 +65,8 @@ public class CometGlueComponent
         bayeux.stop();
         serviceReg.unregister();
 
-        log.log(LogService.LOG_DEBUG, "Deactivated.");
+        if( log != null )
+            log.log(LogService.LOG_DEBUG, "Component deactivated.");
     }
 
     private void putEnvironmentalOpts(Dictionary<String, String> opts)
