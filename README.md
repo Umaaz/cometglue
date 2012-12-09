@@ -11,7 +11,9 @@ Prerequisites
 
 ### Bundle Prerequisites ###
 
-The following information pertains to [**Apache Karaf**](http://karaf.apache.org/).  This is an OSGi server which is delivered with all necessary bundles for running webapps.
+#### Common ####
+
+The following bundles are required for all OSGi containers.
 
 *Mandatory*
 
@@ -22,30 +24,48 @@ The CometGlue bundle has the following mandatory bundle pre-requisite bundles fr
 * cometd-java-server-2.5.0.jar
 * bayeux-api-2.5.0.jar
 
-The following [Felix](http://felix.apache.org/site/downloads.cgi) mandatory dependencies are required to have the Comet Glue component scanned.
-
-* org.apache.felix.scr-1.6.0.jar
-    
-
 *Optional* 
 
 The following dependency from the CometD distribution is optional, but must be supplied if a websocket transport is required:
 
 * cometd-websocket-jetty-2.5.0.jar
 
-In all cases, newer versions of these bundles up to the next major version should be okay.  If anyone has experience of later versions, please let me know what they are and I'll update this page.
 
-### Service Prerequisites ###
+#### Apache Karaf ####
+
+[Apache Karaf](http://karaf.apache.org/) is an OSGi application platform which includes all of the HTTP service bundles required to bring up CometD.
+
+* Mandatory* 
+
+The following [Felix](http://felix.apache.org/site/downloads.cgi) mandatory dependencies are required to have the Comet Glue component scanned.
+
+* org.apache.felix.scr-1.6.0.jar
+* org.apache.felix.configadmin-1.6.0.jar (some containers may provide this already).
+
+Karaf already provides an HTTP service and SLF4J implementation, so SCR is the only prerequisite.
+
+#### Other ####
+
+If you wish to use Comet Glue and CometD on another OSGi server (I tested using [Apache Felix](http://felix.apache.org/site/index.html)), the following bundles are required.
 
 *Mandatory*
 
-* A standard OSGi HTTP Service.
- * I've tested this with Apache Karaf, which is supplied with a full Jetty suite, including Websocket and Continuations.  Putting together your own set of bundles to make this work is theoretically possible but would probably be difficult.  If anyone comes up with a set of bundles which can be used with Felix (for example), please let me know.
+CometD has a mandatory dependency on SLF4J.  To satisfy this dependency, the API bundle is required ([download link](http://slf4j.org/download.html)):
 
-*Optional*
+* slf4j-api 
+ * This provides the basic logging abstraction.  One implemenration is required.  If no log output is required, the NOP implementation can be used.
+* slf4j-nop
+ * This is the no-op logger which does nothing.  Your OSGi framework *may* provide a log adapter for SLF4J (Karaf does).
+ 
+Tested with SLF4j 1.7.2
 
-* A standard OSGi Log Service
- * If this is supplied, limited logging will be performed.
+An HTTP service is required if your OSGi framework does not provide one.  The PAX-Web project provides an excellent HTTP serive based on Jetty.
+
+* pax-web-jetty-bundle (see [here](http://repo1.maven.org/maven2/org/ops4j/pax/web/pax-web-jetty-bundle/2.1.1/)).
+* pax-web-api (see [here](http://repo1.maven.org/maven2/org/ops4j/pax/web/pax-web-api/2.1.1/)).
+
+Tested with PAX-Web 2.1.1.
+
 
 Building
 --------
