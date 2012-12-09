@@ -11,6 +11,8 @@ Prerequisites
 
 ### Bundle Prerequisites ###
 
+The following information pertains to *Apache Karaf*.  This is an OSGi server which is delivered with all necessary bundles for running webapps.
+
 *Mandatory*
 
 The CometGlue bundle has the following mandatory bundle pre-requisite bundles from the [CometD](http://download.cometd.org/) project:
@@ -20,9 +22,13 @@ The CometGlue bundle has the following mandatory bundle pre-requisite bundles fr
 * cometd-java-server-2.5.0.jar
 * bayeux-api-2.5.0.jar
 
-The following [Felix](http://felix.apache.org/site/downloads.cgi) mandatory dependency is required to have the Comet Glue component scanned.
+The following [Felix](http://felix.apache.org/site/downloads.cgi) mandatory dependencies are required to have the Comet Glue component scanned.
 
 * org.apache.felix.scr-1.6.0.jar
+
+
+
+    
 
 *Optional* 
 
@@ -38,7 +44,7 @@ In all cases, newer versions of these bundles up to the next minor version shoul
 *Mandatory*
 
 * A standard OSGi HTTP Service.
- * I've tested this with Apache Karaf, which is supplied with a full Jetty suite.  However, the main component only registers a servlet, and makes that servlet available as a DS service.  Although I've not tested it, I suspect the Jetty Asynchronous HTTP Client and Jetty Continuation bundles are required for the websocket transport.
+ * I've tested this with Apache Karaf, which is supplied with a full Jetty suite, including Websocket and Continuations.  Putting together your own set of bundles to make this work is theoretically possible but would probably be difficult.  If anyone comes up with a set of bundles which can be used with Felix (for example), please let me know.
 
 *Optional*
 
