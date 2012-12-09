@@ -11,7 +11,7 @@ Prerequisites
 
 ### Bundle Prerequisites ###
 
-The following information pertains to *Apache Karaf*.  This is an OSGi server which is delivered with all necessary bundles for running webapps.
+The following information pertains to [**Apache Karaf**](http://karaf.apache.org/).  This is an OSGi server which is delivered with all necessary bundles for running webapps.
 
 *Mandatory*
 
@@ -25,9 +25,6 @@ The CometGlue bundle has the following mandatory bundle pre-requisite bundles fr
 The following [Felix](http://felix.apache.org/site/downloads.cgi) mandatory dependencies are required to have the Comet Glue component scanned.
 
 * org.apache.felix.scr-1.6.0.jar
-
-
-
     
 
 *Optional* 
@@ -36,8 +33,7 @@ The following dependency from the CometD distribution is optional, but must be s
 
 * cometd-websocket-jetty-2.5.0.jar
 
-
-In all cases, newer versions of these bundles up to the next minor version should be okay.  If anyone has experience of later versions, please let me know what they are and I'll update this page.
+In all cases, newer versions of these bundles up to the next major version should be okay.  If anyone has experience of later versions, please let me know what they are and I'll update this page.
 
 ### Service Prerequisites ###
 
