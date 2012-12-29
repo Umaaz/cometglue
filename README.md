@@ -1,13 +1,10 @@
-Comet Glue
-==========
+# Comet Glue #
 
-Introduction
-------------
+## Introduction ##
 
 CometGlue is a (very) simple project to bring up CometD in an OSGi environemnt, and to expose the Bayeux server as a DS service.
 
-Prerequisites
--------------
+## Prerequisites ##
 
 ### Bundle Prerequisites ###
 

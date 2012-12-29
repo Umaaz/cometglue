@@ -65,7 +65,7 @@ public class CometGlueComponent
         bayeux.stop();
         serviceReg.unregister();
 
-        if( log != null )
+        if (log != null)
             log.log(LogService.LOG_DEBUG, "Component deactivated.");
     }
 
