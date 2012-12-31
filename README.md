@@ -111,6 +111,11 @@ Apache Karaf (and possibly Felix too) can be passed this with the `JAVA_OPTS` en
 
 Your client bundles can then express a dependency on this type using SCR annotations, manual DS XML entries or by pulling the service themselves out of the service registry via the bundle context.
 
+Here's an example of SCR annotations used to express the dependency in an application bundle:
+
+      @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
+      private BayeuxServer bayeux;
+
 You can then register CometD services etc. using this reference.
 
 * When the Comet Glue bundle is deactivated, the servlet is stopped and removed.
