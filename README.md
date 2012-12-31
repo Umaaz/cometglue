@@ -85,6 +85,7 @@ The Comet Glue project requires Maven Central, as well as the [osgi-parent](http
 
 Once `osgi-parent` is installed in the local repo, the Comet Glue bundle can be built using maven.
 
+
 ## Configuration
 
 Configuration of the bundle is performed using Java environmental ("-D") options.  The [CometD documentation](http://docs.cometd.org/reference/#java_server) lists options for the CometD servlet, and these can be used by prepending "bayeux." to them, and supplying them as options.  For instance, to enable the Websocket transport in the server, the documentation specifies the following servlet option:
