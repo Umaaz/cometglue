@@ -1,14 +1,14 @@
-# Comet Glue #
+# Comet Glue
 
-## Introduction ##
+## Introduction
 
 CometGlue is a (very) simple project to bring up CometD in an OSGi environemnt, and to expose the Bayeux server as a DS service.
 
-## Prerequisites ##
+## Prerequisites
 
-### Bundle Prerequisites ###
+### Bundle Prerequisites
 
-#### Common ####
+#### Common
 
 The following bundles are required for all OSGi containers.
 
@@ -28,20 +28,20 @@ The following dependency from the CometD distribution is optional, but must be s
 * cometd-websocket-jetty-2.5.0.jar
 
 
-#### Apache Karaf ####
+#### Apache Karaf
 
 [Apache Karaf](http://karaf.apache.org/) is an OSGi application platform which includes all of the HTTP service bundles required to bring up CometD.
 
-* Mandatory* 
+*Mandatory*
 
 The following [Felix](http://felix.apache.org/site/downloads.cgi) mandatory dependencies are required to have the Comet Glue component scanned.
 
 * org.apache.felix.scr-1.6.0.jar
 * org.apache.felix.configadmin-1.6.0.jar (some containers may provide this already).
 
-Karaf already provides an HTTP service and SLF4J implementation, so SCR is the only prerequisite.
+Karaf already provides an HTTP service and SLF4J implementation, so SCR (and possibly configadmin) are the only prerequisites.
 
-#### Other ####
+#### Other OSGi Platforms
 
 If you wish to use Comet Glue and CometD on another OSGi server (I tested using [Apache Felix](http://felix.apache.org/site/index.html)), the following bundles are required.
 
@@ -63,14 +63,29 @@ An HTTP service is required if your OSGi framework does not provide one.  The PA
 
 Tested with PAX-Web 2.1.1.
 
+Here is a bundle listing from Apache Felix, showing all the bundles necessary to bring up Comet and Comet Glue. No application bundles are shown.
 
-Building
---------
+* cometglue-1.0.0-SNAPSHOT.jar
+* bayeux-api-2.5.0.jar
+* cometd-java-client-2.5.0.jar
+* cometd-java-common-2.5.0.jar
+* cometd-java-server-2.5.0.jar
+* cometd-websocket-jetty-2.5.0.jar
+* org.apache.felix.configadmin-1.6.0.jar
+* org.apache.felix.scr-1.6.0.jar
+* pax-web-api-2.1.1.jar
+* pax-web-jetty-bundle-2.1.1.jar
+* slf4j-api-1.7.2.jar
+* slf4j-nop-1.7.2.jar
+
+
+## Building
 
 The Comet Glue project requires Maven Central, as well as the [osgi-parent](https://github.com/john-hawksley/osgi-parent) POM to be installed in the local repo.
 
-Configuration
--------------
+Once `osgi-parent` is installed in the local repo, the Comet Glue bundle can be built using maven.
+
+## Configuration
 
 Configuration of the bundle is performed using Java environmental ("-D") options.  The [CometD documentation](http://docs.cometd.org/reference/#java_server) lists options for the CometD servlet, and these can be used by prepending "bayeux." to them, and supplying them as options.  For instance, to enable the Websocket transport in the server, the documentation specifies the following servlet option:
 
@@ -84,11 +99,11 @@ Apache Karaf (and possibly Felix too) can be passed this with the `JAVA_OPTS` en
 
     export JAVA_OPTS="-Dbayeux.transports=org.cometd.websocket.server.WebSocketTransport"
 
-Usage
------
+## Usage
 
 * Place the prerequisite bundles in your OSGi engine's `deploy` folder, or arrange to have them deployed via OBR or other mechanism.
 * Place the Comet Glue bundle in the same place.
+* Place your application bundles in the same place too.
 * Ensure any `JAVA_OPTS` reqiured to configure CometD are set.
 * When the Comet Glue bundle activates, the CometD servlet is registered with the OSGi HTTP Service under the path `/cometd`
 * The servlet implementation, a `BayeuxServerImpl` is then registered with the OSGi service registry under the class name `org.cometd.bayeux.server.BayeuxServer`. 
