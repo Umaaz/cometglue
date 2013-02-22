@@ -20,7 +20,6 @@ import org.osgi.service.log.LogService;
 @Component
 public class CometGlueComponent
 {
-
     private static final String COMETD_ALIAS = "/cometd";
 
     @Reference(cardinality = ReferenceCardinality.MANDATORY_UNARY)
@@ -35,30 +34,29 @@ public class CometGlueComponent
     protected void activate(ComponentContext ctxt) throws Exception
     {
         Servlet servlet = new CometdServlet();
-        Dictionary<String, String> opts = new Hashtable<String, String>();
 
+        // Read the options out of the environment.
+        Dictionary<String, String> opts = new Hashtable<String, String>();
         putEnvironmentalOpts(opts);
 
         if (log != null)
             log.log(LogService.LOG_DEBUG, "Using Bayeux options: " + opts);
 
         // Register the cometd service with the OSGi web service.
-        // In jetty.xml, the following conenctor must be used:
+        // In jetty.xml, the following connector must be used:
         // <New class="org.eclipse.jetty.server.nio.SelectChannelConnector">
         httpService.registerServlet(COMETD_ALIAS, servlet, opts, null);
 
         bayeux = ((CometdServlet) servlet).getBayeux();
 
-        // Add our test channel listener
-        // bayeux.addListener(new CometGlueChannelListener(log));
-
-        serviceReg = ctxt.getBundleContext().registerService(
-                BayeuxServer.class.getName(), bayeux, null);
+        // Put Bayeux into the service registry.
+        serviceReg = ctxt.getBundleContext().registerService(BayeuxServer.class.getName(), bayeux, null);
 
         if (log != null)
             log.log(LogService.LOG_DEBUG, "Component active.");
     }
 
+    // Deactivate the service - stops Bayeux and unregisters the service.
     protected void deactivate(ComponentContext ctx) throws Exception
     {
         httpService.unregister(COMETD_ALIAS);
@@ -69,6 +67,8 @@ public class CometGlueComponent
             log.log(LogService.LOG_DEBUG, "Component deactivated.");
     }
 
+    // Looks for keys starting with "bayeux" and strips that, putting the
+    // remainder into the passed dictionary.
     private void putEnvironmentalOpts(Dictionary<String, String> opts)
     {
         Properties sysprops = System.getProperties();
@@ -81,8 +81,7 @@ public class CometGlueComponent
 
             if (key.startsWith(optPrefix))
             {
-                opts.put(key.substring(optPrefix.length()),
-                        sysprops.getProperty(key));
+                opts.put(key.substring(optPrefix.length()), sysprops.getProperty(key));
             }
         }
     }
